@@ -1,6 +1,4 @@
-package com.github.eagle.service.lock;
-
-import redis.clients.jedis.Jedis;
+package com.github.eagle.utils.lock;
 
 /**
  * @author Edwin Wu
