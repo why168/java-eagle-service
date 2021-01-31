@@ -13,9 +13,18 @@ class EagleAppTests {
 
     @Test
     void lockUtilsTest() {
+        String lockKey = "kkkk";
+        String uuid = "";
 
-        for (int i = 0; i < 20; i++) {
-            System.out.println(lockUtils.lock("key00", 10000));
+        for (int i = 1; i <= 5; i++) {
+            String ok = lockUtils.lock(lockKey, 10000);
+            if (ok != null) {
+                uuid = ok;
+            }
+            System.out.println("lock:" + ok);
+            if (i == 5) {
+                System.out.println("unlock:" + lockUtils.unLock(lockKey, uuid));
+            }
         }
     }
 

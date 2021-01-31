@@ -2,6 +2,7 @@ package com.github.eagle.service.lock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
@@ -42,7 +43,7 @@ public class SpringRedisLockUtils implements RedisLockInterface {
         if (result != null && result) {
             return uuid;
         } else {
-            return "";
+            return null;
         }
     }
 
@@ -51,8 +52,9 @@ public class SpringRedisLockUtils implements RedisLockInterface {
         if (uuid == null || "".equals(uuid)) {
             return false;
         }
-
-        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(UNLOCK_LUA_SCRIPT, Long.class);
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptText(UNLOCK_LUA_SCRIPT);
+        redisScript.setResultType(Long.class);
         Long result = redisTemplate.execute(redisScript, Collections.singletonList(key), uuid);
         return Long.valueOf(1).equals(result);
     }

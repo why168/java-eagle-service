@@ -62,20 +62,21 @@ public class RedisLockUtils implements RedisLockInterface {
     public static void main(String[] args) {
         RedisLockUtils redisLockUtils = new RedisLockUtils();
 
-        final String LOCK_KEY = "LOCK_KEY";
-        String uuid = redisLockUtils.lock(LOCK_KEY, 60 * 1000);
-        uuid = redisLockUtils.lock(LOCK_KEY, 60 * 1000);
-        uuid = redisLockUtils.lock(LOCK_KEY, 60 * 1000);
+        String lockKey = "kkkk";
+        String uuid = "";
 
-        System.out.println("-");
-
-        String finalUuid = uuid;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(redisLockUtils.unLock(LOCK_KEY, finalUuid));
+        for (int i = 1; i <= 10; i++) {
+            String ok = redisLockUtils.lock(lockKey, 10000);
+            if (ok != null) {
+                uuid = ok;
             }
-        }).start();
+            System.out.println("lock:" + ok);
+            if (i == 5) {
+                System.out.println("unlock:" + redisLockUtils.unLock(lockKey, uuid));
+                System.out.println("unlock:" + redisLockUtils.unLock(lockKey, uuid));
+                System.out.println("unlock:" + redisLockUtils.unLock(lockKey, uuid));
+            }
+        }
     }
 }
 
