@@ -24,8 +24,10 @@ public class User {
     @Null(groups = {Save.class})
     @NotNull(groups = {Update.class})
     private Long id;
+
     @Size(min = 2, max = 20, groups = {Save.class, Update.class})
     private String name;
+
     //	@Range(min = 18, max = 70, groups = {Save.class, Update.class})
     @Age(min = 18, max = 70, groups = {Save.class, Update.class})
     private Integer age;
